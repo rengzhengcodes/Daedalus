@@ -23,19 +23,29 @@ class Space(ABC):
         self._bounds: tuple = tuple(bounds)
     
     @abstractmethod
-    def contains(self, x: array[int]):
+    def contains(self, x: array[int]) -> bool:
         """Check if the point x is in the search space."""
         for i, (lower, upper) in enumerate(self._bounds):
             if not lower <= x[i] < upper:
                 return False
         return True
 
+    @abstractmethod
+    def center(self) -> tuple:
+        """Return the center of the search space."""
+        return np.array((lower + upper) // 2 for lower, upper in self._bounds)
+    
+    @abstractmethod
+    def in_dim(self, i: float, x: float) -> bool:
+        """Check if x is in the bounds of the ith dimension of the search space."""
+        return self._bounds[i][0] <= x < self._bounds[i][1]
+
 class OrthoSpace(Space):
     """A Space in which all input dimensions are assumed to be orthogonal."""
     def __init__(self, dimensions: array[str], bounds: array[int, int]) -> None:
         super().__init__(dimensions, bounds)
 
-    def adj(self, x: tuple) -> Generator[array[tuple]]:
+    def adj(self, x: array) -> Generator[array[tuple]]:
         """
         Return the adjacent points to x in the search space.
         
@@ -48,10 +58,16 @@ class OrthoSpace(Space):
                 adj = list(x)
                 adj[i] -= 1
                 adj_points.append(np.array(adj))
+            else:
+                adj_points.append(x)
+
             if x[i] < upper - 1:
                 adj = list(x)
                 adj[i] += 1
                 adj_points.append(np.array(adj))
+            else:
+                adj_points.append(x)
+
             yield tuple(adj_points)
 
 class Optimizer(ABC):
