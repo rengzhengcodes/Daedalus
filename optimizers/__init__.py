@@ -6,7 +6,7 @@ array = np.ndarray
 
 class Space(ABC):
     """Abstract base class for discrete-space search spaces."""
-    def __init__(self, dimensions: array[str], bounds: array[float, float]) -> None:
+    def __init__(self, dimensions: array[str], bounds: array[int, int]) -> None:
         """
         Initialize the search space with the dimensions of the space. Assumes
         all dimensions can be orthogonalized (i.e., no two dimensions are collinear).
@@ -23,7 +23,7 @@ class Space(ABC):
         self._bounds: tuple = tuple(bounds)
     
     @abstractmethod
-    def contains(self, x: tuple):
+    def contains(self, x: array[int]):
         """Check if the point x is in the search space."""
         for i, (lower, upper) in enumerate(self._bounds):
             if not lower <= x[i] < upper:
@@ -32,10 +32,10 @@ class Space(ABC):
 
 class OrthoSpace(Space):
     """A Space in which all input dimensions are assumed to be orthogonal."""
-    def __init__(self, dimensions: iter[str], bounds: iter[str]) -> None:
+    def __init__(self, dimensions: array[str], bounds: array[int, int]) -> None:
         super().__init__(dimensions, bounds)
 
-    def adj(self, x: tuple) -> Generator[tuple]:
+    def adj(self, x: tuple) -> Generator[array[tuple]]:
         """
         Return the adjacent points to x in the search space.
         
@@ -43,11 +43,15 @@ class OrthoSpace(Space):
             @param x: A tuple representing a point in the search space.
         """
         for i, (lower, upper) in enumerate(self._bounds):
-            adj_points: list = []
+            adj_points = []
             if x[i] > lower:
-                adj_points.append(x[:i] + (x[i] - 1,) + x[i+1:])
+                adj = list(x)
+                adj[i] -= 1
+                adj_points.append(np.array(adj))
             if x[i] < upper - 1:
-                adj_points.append(x[:i] + (x[i] + 1,) + x[i+1:])
+                adj = list(x)
+                adj[i] += 1
+                adj_points.append(np.array(adj))
             yield tuple(adj_points)
 
 class Optimizer(ABC):
