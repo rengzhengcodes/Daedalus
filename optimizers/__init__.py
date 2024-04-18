@@ -31,11 +31,7 @@ class Space(ABC):
         return True
 
 class OrthoSpace(Space):
-    """A space in which all input dimensions are assumed to be orthogonal."""
-    pass
-
-class DiscreteOrthoSpace(OrthoSpace):
-    """A space in which all input dimensions are assumed to be discrete and orthogonal."""
+    """A Space in which all input dimensions are assumed to be orthogonal."""
     def __init__(self, dimensions: iter[str], bounds: iter[str]) -> None:
         super().__init__(dimensions, bounds)
 
