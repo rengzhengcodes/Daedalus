@@ -25,8 +25,8 @@ install_timeloop:
 	    && wget https://barvinok.sourceforge.io/barvinok-${BARVINOK_VER}.tar.gz \
 		&& tar -xvzf barvinok-${BARVINOK_VER}.tar.gz \
 		&& cd barvinok-${BARVINOK_VER} \
-		&& ./configure --enable-shared-barvinok --with-ntl-prefix=/usr/local/lib \
-		&& make CFLAG='-std=ansi'\
+		&& ./configure  --enable-shared-barvinok --with-gmp-prefix=/usr/local/lib --with-ntl-prefix=/usr/local/lib \
+		&& make CXXFLAG='-std=ansi'\
 		&& sudo make install
 
 	cd src/timeloop \
