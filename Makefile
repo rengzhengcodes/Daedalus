@@ -1,18 +1,15 @@
 # For Timeloop installation
 BARVINOK_VER ?= 0.41.6
 NTL_VER      ?= 11.5.1
+export PATH := $(PATH):/usr/local/lib
+export CPATH := $(CPATH):/usr/local/lib
 
 ## @note Very explicitly ripped from accelergy-timeloop-infrastructure. Thanks Tanner!
 # https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
 install_timeloop:
-	export PATH="$$PATH:/usr/local/lib:/tmp/build-timeloop"
-	export CPATH="$$CPATH:/usr/local/lib:/tmp/build-timeloop"
-	export LIBRARY_PATH="$$LIBRARY_PATH:/usr/local/lib:/tmp/build-timeloop"
-
 	mkdir -p /tmp/build-timeloop
-	echo "PATH: $$PATH"
-	echo "CPATH: $$CPATH"
-	echo "LIBRARY_PATH: $$LIBRARY_PATH"
+	echo $$PATH
+	echo $$CPATH
 
 	cd /tmp/build-timeloop \
 		&& wget https://libntl.org/ntl-${NTL_VER}.tar.gz \
@@ -26,16 +23,13 @@ install_timeloop:
 	    && wget https://barvinok.sourceforge.io/barvinok-${BARVINOK_VER}.tar.gz \
 		&& tar -xvzf barvinok-${BARVINOK_VER}.tar.gz \
 		&& cd barvinok-${BARVINOK_VER} \
-		&& ./configure --enable-shared-barvinok \
+		&& ./configure --enable-shared-barvinok --with-ntl-prefix=/usr/local/lib \
 		&& make \
 		&& sudo make install
 
 	cd src/timeloop \
 		&& cp -r pat-public/src/pat src/pat  \
 		&& scons -j4 --with-isl --static --accelergy
-	cp src/timeloop/build/timeloop-mapper  ~/.local/bin/timeloop-mapper
-	cp src/timeloop/build/timeloop-metrics ~/.local/bin/timeloop-metrics
-	cp src/timeloop/build/timeloop-model ~/.local/bin/timeloop-model
 
 
 install_accelergy:
