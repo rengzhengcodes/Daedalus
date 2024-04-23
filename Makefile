@@ -1,8 +1,10 @@
 # For Timeloop installation
-BARVINOK_VER ?= 0.41.6
+BARVINOK_VER ?= 0.41.7
 NTL_VER      ?= 11.5.1
+
 export PATH := $(PATH):/usr/local/lib
 export CPATH := $(CPATH):/usr/local/lib
+export LIBRARY_PATH := $(LIBRARY_PATH):/usr/local/lib
 
 ## @note Very explicitly ripped from accelergy-timeloop-infrastructure. Thanks Tanner!
 # https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
@@ -24,7 +26,7 @@ install_timeloop:
 		&& tar -xvzf barvinok-${BARVINOK_VER}.tar.gz \
 		&& cd barvinok-${BARVINOK_VER} \
 		&& ./configure --enable-shared-barvinok --with-ntl-prefix=/usr/local/lib \
-		&& make \
+		&& make CFLAG='-std=ansi'\
 		&& sudo make install
 
 	cd src/timeloop \
