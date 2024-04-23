@@ -1,12 +1,1 @@
-[submodule "isl"]
-	path = lib/isl
-	url = git://repo.or.cz/isl.git
-[submodule "barvinok"]
-	path = lib/barvinok
-	url = git://repo.or.cz/barvinok.git
-[submodule "accelergy"]
-	path = lib/accelergy
-	url = https://github.com/Accelergy-Project/accelergy.git
-[submodule "timeloop"]
-	path = lib/timeloop
-	url = https://github.com/NVlabs/timeloop.git
+
