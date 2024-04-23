@@ -1,6 +1,39 @@
-dependencies: lib/timeloop/SConstruct env/bin/activate lib/accelergy/setup.py lib/barvinok/barvinok lib/isl
-	LIB_PATH=$$PWD/lib
-	export CPATH=$$CPATH:$(LIB_PATH)/barvinok
-	export LIBRARY_PATH=$$LIBRARY_PATH:$(LIB_PATH)/barvinok
-	cd lib/timeloop && scons -j8
-	cd lib/accelergy/ && python3 setup.py && pip3 install -e .
+# For Timeloop installation
+BARVINOK_VER ?= 0.41.6
+NTL_VER      ?= 11.5.1
+
+## @note Very explicitly ripped from accelergy-timeloop-infrastructure. Thanks Tanner!
+# https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
+install_timeloop:
+	mkdir -p /tmp/build-timeloop
+
+	cd /tmp/build-timeloop \
+		&& wget https://libntl.org/ntl-${NTL_VER}.tar.gz \
+		&& tar -xvzf ntl-${NTL_VER}.tar.gz \
+		&& cd ntl-${NTL_VER}/src \
+		&& ./configure NTL_GMP_LIP=on SHARED=on \
+		&& make \
+		&& sudo make install
+
+	cd /tmp/build-timeloop \
+	    && wget https://barvinok.sourceforge.io/barvinok-${BARVINOK_VER}.tar.gz \
+		&& tar -xvzf barvinok-${BARVINOK_VER}.tar.gz \
+		&& cd barvinok-${BARVINOK_VER} \
+		&& ./configure --enable-shared-barvinok \
+		&& make \
+		&& sudo make install
+
+	cd src/timeloop \
+		&& cp -r pat-public/src/pat src/pat  \
+		&& scons -j4 --with-isl --static --accelergy
+	cp src/timeloop/build/timeloop-mapper  ~/.local/bin/timeloop-mapper
+	cp src/timeloop/build/timeloop-metrics ~/.local/bin/timeloop-metrics
+	cp src/timeloop/build/timeloop-model ~/.local/bin/timeloop-model
+
+
+install_accelergy:
+	# Goes to the right venv
+	source env/bin/activate
+
+	python3 -m pip install setuptools wheel libconf numpy joblib
+	cd lib && pip3 install ./accelergy*
