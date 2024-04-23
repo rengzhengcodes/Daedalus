@@ -6,6 +6,9 @@ NTL_VER      ?= 11.5.1
 # https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
 install_timeloop:
 	export PATH="$$PATH:/usr/local/lib:/tmp/build-timeloop"
+	export CPATH="$$CPATH:/usr/local/lib:/tmp/build-timeloop"
+	export LIBRARY_PATH="$$LIBRARY_PATH:/usr/local/lib:/tmp/build-timeloop"
+
 	mkdir -p /tmp/build-timeloop
 	echo "PATH: $$PATH"
 	echo "CPATH: $$CPATH"
