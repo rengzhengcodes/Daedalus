@@ -10,8 +10,38 @@ export LIBRARY_PATH := $(LIBRARY_PATH):/usr/local/lib
 # https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
 install_timeloop:
 	mkdir -p /tmp/build-timeloop
-	echo $$PATH
-	echo $$CPATH
+	
+	apt-get update \
+		&& DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata \
+		&& apt-get install -y --no-install-recommends \
+						locales \
+						curl \
+						git \
+						wget \
+						python3-dev \
+						python3-pip \
+						scons \
+						make \
+						autotools-dev \
+						autoconf \
+						automake \
+						libtool \
+		&& apt-get install -y --no-install-recommends \
+						g++ \
+						cmake
+
+	apt-get update \
+		&& apt-get install -y --no-install-recommends \
+						g++ \
+						libconfig++-dev \
+						libboost-dev \
+						libboost-iostreams-dev \
+						libboost-serialization-dev \
+						libyaml-cpp-dev \
+						libncurses5-dev \
+						libtinfo-dev \
+						libgpm-dev \
+						libgmp-dev
 
 	cd /tmp/build-timeloop \
 		&& wget https://libntl.org/ntl-${NTL_VER}.tar.gz \
