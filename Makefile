@@ -66,8 +66,5 @@ install_timeloop:
 
 
 install_accelergy:
-# Goes to the right venv
-	source .venv/bin/activate
-
 	python3 -m pip install setuptools wheel libconf numpy joblib
 	cd lib && pip3 install ./accelergy*
