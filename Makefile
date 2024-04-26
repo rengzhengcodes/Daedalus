@@ -19,7 +19,7 @@ install_timeloop:
 		&& cd ntl-${NTL_VER}/src \
 		&& ./configure NTL_GMP_LIP=on SHARED=on \
 		&& make \
-		&& sudo make install
+		&& make install
 
 	cd /tmp/build-timeloop \
 	    && wget https://barvinok.sourceforge.io/barvinok-${BARVINOK_VER}.tar.gz \
@@ -27,7 +27,7 @@ install_timeloop:
 		&& cd barvinok-${BARVINOK_VER} \
 		&& ./configure  --enable-shared-barvinok --with-gmp-prefix=/usr/local/lib --with-ntl-prefix=/usr/local/lib \
 		&& make CXXFLAG='-std=ansi'\
-		&& sudo make install
+		&& make install
 
 	cd src/timeloop \
 		&& cp -r pat-public/src/pat src/pat  \
