@@ -37,6 +37,7 @@ install_timeloop:
 						libboost-dev \
 						libboost-iostreams-dev \
 						libboost-serialization-dev \
+						libboost-all-dev \
 						libyaml-cpp-dev \
 						libncurses5-dev \
 						libtinfo-dev \
