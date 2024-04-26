@@ -29,7 +29,7 @@ install_timeloop:
 		&& make CXXFLAG='-std=ansi'\
 		&& make install
 
-	cd src/timeloop \
+	cd lib/timeloop \
 		&& cp -r pat-public/src/pat src/pat  \
 		&& scons -j4 --with-isl --static --accelergy
 
