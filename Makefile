@@ -6,6 +6,9 @@ export PATH := $(PATH):/usr/local/lib
 export CPATH := $(CPATH):/usr/local/lib
 export LIBRARY_PATH := $(LIBRARY_PATH):/usr/local/lib
 
+export TIMELOOP_INCLUDE_PATH := $(shell pwd)/lib/timeloop/include
+export TIMELOOP_LIB_PATH := $(shell pwd)/lib/timeloop/lib
+
 ## @note Very explicitly ripped from accelergy-timeloop-infrastructure. Thanks Tanner!
 # https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
 install_timeloop:
@@ -67,8 +70,6 @@ install_timeloop:
 
 install_pytimeloop:
 	cd lib/timeloop-python \
-		&& export TIMELOOP_INCLUDE_PATH=$(pwd)/lib/timeloop/include \
-		&& export TIMELOOP_LIB_PATH=$(pwd)/lib/timeloop/lib \
 		&& pip3 install -e . \
 		&& rm -rf build
 
