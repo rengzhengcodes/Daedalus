@@ -62,8 +62,15 @@ install_timeloop:
 
 	cd lib/timeloop \
 		&& cp -r pat-public/src/pat src/pat  \
-		&& scons -j4 --with-isl --static --accelergy
+		&& scons -j4 --with-isl --static --accelergy \
 
+
+install_pytimeloop:
+	cd lib/timeloop-python \
+		&& export TIMELOOP_INCLUDE_PATH=$(pwd)/lib/timeloop/include \
+		&& export TIMELOOP_LIB_PATH=$(pwd)/lib/timeloop/lib \
+		&& pip3 install -e . \
+		&& rm -rf build
 
 install_accelergy:
 	python3 -m pip install setuptools wheel libconf numpy joblib
