@@ -2,7 +2,7 @@ from typing import Optional
 import os
 import threading
 import timeloopfe.v4 as tl
-from tlhelper import *
+from tlhelper import remove_sparse_optimizations
 import joblib
 
 Specification = tl.Specification
