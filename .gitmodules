@@ -11,3 +11,6 @@
 [submodule "lib/timeloop"]
 	path = lib/timeloop
 	url = https://github.com/NVlabs/timeloop.git
+[submodule "lib/timeloop-python"]
+	path = lib/timeloop-python
+	url = git@github.com:Accelergy-Project/timeloop-python.git
