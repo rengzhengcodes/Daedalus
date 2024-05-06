@@ -20,15 +20,15 @@ class Architecture:
         if brief_print:
             print('.', end='')
         # Set up the specification
-        spec = tl.Specification.from_yaml_files(TOP_PATH)
+        spec = tl.Specification.from_yaml_files(self._spec)
         buf = spec.architecture.find("buffer")
-        buf.attributes["depth"] = round(buf.attributes["depth"] * global_buffer_size_scale)
+        buf.attributes["depth"] = round(buf.attributes["depth"] * (2 ** x_dict["global_buffer_size_scale"]))
         pe = spec.architecture.find("PE")
-        pe.spatial.meshX = round(pe.spatial.meshX * pe_scale)
+        pe.spatial.meshX = round(pe.spatial.meshX * (2 ** x_dict["pe_scale"]))
         spec.mapper.search_size = 2000
 
         # Give each run a unique ID and run the mapper
-        proc_id = f"glb_scale={global_buffer_size_scale},pe_scale={pe_scale}"
+        proc_id = f"glb_scale={2 ** x_dict["global_buffer_size_scale"]},pe_scale={2 ** x_dict["pe_scale"]}"
         if brief_print:
             print('.', end='')
         else:
