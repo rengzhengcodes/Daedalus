@@ -65,10 +65,12 @@ install_timeloop:
 
 	cd lib/timeloop \
 		&& cp -r pat-public/src/pat src/pat  \
-		&& scons -j4 --with-isl --static --accelergy \
+		&& scons -j4 --with-isl --accelergy \
 
 
 install_pytimeloop:
+	echo $(TIMELOOP_INCLUDE_PATH)
+	echo $(TIMELOOP_LIB_PATH)
 	cd lib/timeloop-python \
 		&& pip3 install -e . \
 		&& rm -rf build
