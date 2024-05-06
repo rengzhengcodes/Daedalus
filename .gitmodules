@@ -20,3 +20,9 @@
 [submodule "lib/accelergy-neurosim-plug-in"]
 	path = lib/accelergy-neurosim-plug-in
 	url = git@github.com:Accelergy-Project/accelergy-neurosim-plug-in.git
+[submodule "lib/accelergy-aladdin-plug-in"]
+	path = lib/accelergy-aladdin-plug-in
+	url = git@github.com:Accelergy-Project/accelergy-aladdin-plug-in.git
+[submodule "lib/accelergy-library-plug-in"]
+	path = lib/accelergy-library-plug-in
+	url = git@github.com:Accelergy-Project/accelergy-library-plug-in.git

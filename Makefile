@@ -13,7 +13,7 @@ export TIMELOOP_LIB_PATH := $(shell pwd)/lib/timeloop/lib
 # https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
 install_timeloop:
 	mkdir -p /tmp/build-timeloop
-	
+
 	apt-get update \
 		&& DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata \
 		&& apt-get install -y --no-install-recommends \
@@ -40,7 +40,6 @@ install_timeloop:
 						libboost-dev \
 						libboost-iostreams-dev \
 						libboost-serialization-dev \
-						libboost-all-dev \
 						libyaml-cpp-dev \
 						libncurses5-dev \
 						libtinfo-dev \
@@ -59,13 +58,17 @@ install_timeloop:
 	    && wget https://barvinok.sourceforge.io/barvinok-${BARVINOK_VER}.tar.gz \
 		&& tar -xvzf barvinok-${BARVINOK_VER}.tar.gz \
 		&& cd barvinok-${BARVINOK_VER} \
-		&& ./configure  --enable-shared-barvinok --with-gmp-prefix=/usr/local/lib --with-ntl-prefix=/usr/local/lib \
-		&& make CXXFLAG='-std=ansi'\
+		&& ./configure --enable-shared-barvinok \
+		&& make \
 		&& make install
 
 	cd lib/timeloop \
 		&& cp -r pat-public/src/pat src/pat  \
-		&& scons -j4 --with-isl --static --accelergy \
+		&& scons -j4 --with-isl --static --accelergy
+
+	cp lib/timeloop/build/timeloop-mapper  ~/.local/bin/timeloop-mapper
+	cp lib/timeloop/build/timeloop-metrics ~/.local/bin/timeloop-metrics
+	cp lib/timeloop/build/timeloop-model ~/.local/bin/timeloop-model
 
 
 install_pytimeloop:
@@ -77,6 +80,8 @@ install_pytimeloop:
 
 install_accelergy:
 	python3 -m pip install setuptools wheel libconf numpy joblib
+	cd lib/accelergy-library-plug-in && pip3 install -e .
 	cd lib/accelergy-cacti-plug-in && make
 	cd lib/accelergy-neurosim-plug-in && make
+	cd lib/accelergy-aladdin-plug-in && pip3 install -e .
 	cd lib && pip3 install ./accelergy*
