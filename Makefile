@@ -85,3 +85,6 @@ install_accelergy:
 	cd lib/accelergy-neurosim-plug-in && make
 	cd lib/accelergy-aladdin-plug-in && pip3 install -e .
 	cd lib && pip3 install ./accelergy*
+
+install_self:
+	python3 -m pip install -e .
