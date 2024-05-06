@@ -8,8 +8,8 @@ class MFA(Optimizer):
     def __init__(self, space: OrthoSpace, loss: Callable) -> None:
         super().__init__(space, loss)
         self.dim = 0
-        self._optimal: array = np.zeros(space.center().shape, dtype=np.int64)
-        self._optimal = np.nan
+        self._optimal: array = np.zeros(space.center().shape, dtype=np.float128)
+        self._optimal[:] = np.nan
     
     def step(self) -> None:
         """
@@ -36,3 +36,5 @@ class MFA(Optimizer):
     @property
     def optimal(self) -> array:
         ret: array = self._optimal.copy()
+        ret = ret.astype(np.int64)
+        return ret
