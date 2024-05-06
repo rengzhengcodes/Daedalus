@@ -3,7 +3,7 @@ from typing import Callable, Generator
 
 import numpy as np
 
-class MFA(Optimizer):
+class Midas(Optimizer):
     """Performs a modified MFA algorithm to optimize the architecture."""
     def __init__(self, space: OrthoSpace, loss: Callable) -> None:
         super().__init__(space, loss)
@@ -30,7 +30,7 @@ class MFA(Optimizer):
             loss[point] = self.loss(tuple(x))
         # Calculates the dim with the minimal loss
         min_loss: int = min(loss, key=loss.get)
-        self.optimal[dim] = min_loss
+        self._optimal[dim] = min_loss
         dim += 1
     
     @property

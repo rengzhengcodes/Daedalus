@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 from ..architectures import Architecture
-from ..optimizers import sgd, mfa
+from ..optimizers import midas, sgd
 
 file_path = os.path.abspath(__file__)
 ex_path = os.path.join(os.path.dirname(file_path))
@@ -43,7 +43,7 @@ def test_mfa():
     arch = Architecture(dimensions, bounds, spec)
     
     # Set up the optimizer
-    optim = mfa.MFA(arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1])
+    optim = midas.Midas(arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1])
     
     # Perform the optimization
     for i in range(len(dimensions)):
