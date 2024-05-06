@@ -18,20 +18,19 @@ class Midas(Optimizer):
         Returns:
             A tuple representing the next point in the search space.
         """
-        dim = self.dim
         # Makes a copy of x to do the axial comparisons on.
         x: array = self.space.center()
         # Initializes the loss array.
         loss: list[int] = {}
-        for point in range(*self.space._bounds[dim]):
+        for point in range(*self.space._bounds[self.dim]):
             # Calculates the new point on that dimension.
-            x[dim] = point
+            x[self.dim] = point
             # Calculates the loss of the new point.
             loss[point] = self.loss(tuple(x))
         # Calculates the dim with the minimal loss
         min_loss: int = min(loss, key=loss.get)
-        self._optimal[dim] = min_loss
-        dim += 1
+        self._optimal[self.dim] = min_loss
+        self.dim += 1
     
     @property
     def optimal(self) -> array:
