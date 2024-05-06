@@ -77,4 +77,6 @@ install_pytimeloop:
 
 install_accelergy:
 	python3 -m pip install setuptools wheel libconf numpy joblib
+	cd lib/accelergy-cacti-plug-in && make
+	cd lib/accelergy-neurosim-plug-in && make
 	cd lib && pip3 install ./accelergy*

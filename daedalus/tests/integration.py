@@ -3,15 +3,15 @@ from ..optimizers.sgd import SGD
 
 import os
 file_path = os.path.abspath(__file__)
-ex_path = os.path.join(os.path.dirname(file_path), "example_designs", "example_designs")
+ex_path = os.path.join(os.path.dirname(file_path))
 ex_path = os.path.abspath(ex_path)
 
-def eyeriss():
+def example():
     """Perform optimization on the Eyeriss architecture."""
     # Set up the search space
     dimensions = ("global_buffer_size_scale", "pe_scale")
-    bounds = ((-1, 4), (-1, 4))
-    spec = os.path.join(ex_path, "eyeriss.yaml")
+    bounds = ((-1, 1), (-1, 1))
+    spec = os.path.join(ex_path, "top.yaml.jinja")
     arch = Architecture(dimensions, bounds, spec)
     
     # Set up the optimizer
@@ -24,4 +24,4 @@ def eyeriss():
         print(f"Loss: {sgd.loss(sgd.x)}")
         print()
 
-eyeriss()
+example()
