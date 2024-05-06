@@ -27,13 +27,10 @@ def run_mapper(
     problem: Optional[str] = None,
     generate_ref_outputs: Optional[bool] = False,
     remove_sparse_opts: Optional[bool] = False,
+    **parse_args,
 ):
     # This data will be supplied when rendering the top jinja2 template
-    jinja_parse_data = {
-        "architecture": arch_target,
-        "meshX": 12,
-        "meshY": 14,
-    }
+    jinja_parse_data = {"architecture": arch_target, **parse_args}
 
     if problem is None:
         problem_name = "default_problem"
@@ -96,7 +93,9 @@ if __name__ == "__main__":
 
     # Run parallel processes for all architectures and problems
     joblib.Parallel(n_jobs=n_jobs)(
-        joblib.delayed(run_mapper)(a, p, generate_ref_outputs, remove_sparse_opts)
+        joblib.delayed(run_mapper)(
+            a, p, generate_ref_outputs, remove_sparse_opts, meshX=12, meshY=14
+        )
         for a in arch
         for p in problems
     )
