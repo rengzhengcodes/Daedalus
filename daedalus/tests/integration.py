@@ -1,7 +1,10 @@
+import os
+
+import numpy as np
+
 from ..architectures import Architecture
 from ..optimizers.sgd import SGD
 
-import os
 file_path = os.path.abspath(__file__)
 ex_path = os.path.join(os.path.dirname(file_path))
 ex_path = os.path.abspath(ex_path)
@@ -24,7 +27,7 @@ def example():
         print(f"Step {i}: {sgd._x}")
         print(f"Loss: {sgd.loss(tuple(sgd._x))}")
         print()
-        if prev_step == sgd._x:
+        if np.array_equal(sgd._x, prev_step):
             break
 
 example()
