@@ -34,7 +34,7 @@ def test_sgd():
 
 # test_sgd()
 
-def test_mfa():
+def test_midas():
     """Perform optimization on the Eyeriss architecture."""
     # Set up the search space
     dimensions = ("global_buffer_size_scale", "pe_scale")
@@ -53,4 +53,4 @@ def test_mfa():
 
     print(f"Done. Final point: {optim.optimal}")
 
-test_mfa()
+test_midas()
