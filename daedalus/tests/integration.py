@@ -21,7 +21,7 @@ def example():
     sgd = SGD(arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1])
     
     # Perform the optimization
-    prev_step = sgd._x
+    print(f"Initial point: {(prev_step := sgd._x.copy())}")
     for i in range(10):
         sgd.step()
         print(f"Step {i}: {sgd._x}")
@@ -29,5 +29,7 @@ def example():
         print()
         if np.array_equal(sgd._x, prev_step):
             break
+        prev_step = sgd._x.copy()
+    print(f"Done. Final point: {sgd._x}, Previous: {prev_step}")
 
 example()
