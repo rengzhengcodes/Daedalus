@@ -3,7 +3,7 @@ import os
 import math
 import numpy as np
 
-from ..architectures import Architecture
+from ..architectures.eyeriss import Eyeriss
 from ..optimizers import midas, sgd, grid
 
 file_path = os.path.abspath(__file__)
@@ -17,7 +17,7 @@ def test_sgd():
     dimensions = ("global_buffer_size_scale", "pe_scale")
     bounds = ((-1, 8), (-1, 8))
     spec = os.path.join(ex_path, "top.yaml.jinja")
-    arch = Architecture(dimensions, bounds, spec)
+    arch = Eyeriss(dimensions, bounds, spec)
 
     # Set up the optimizer
     optim = sgd.SGD(arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1])
@@ -35,16 +35,16 @@ def test_sgd():
     print(f"Done. Final point: {optim.x}, Previous: {prev_step}")
 
 
-# test_sgd()
+test_sgd()
 
 
 def test_midas():
     """Perform optimization on the Eyeriss architecture."""
     # Set up the search space
     dimensions = ("global_buffer_size_scale", "pe_scale")
-    bounds = ((0, 5), (0, 5))
+    bounds = ((-1, 8), (-1, 8))
     spec = os.path.join(ex_path, "top.yaml.jinja")
-    arch = Architecture(dimensions, bounds, spec)
+    arch = Eyeriss(dimensions, bounds, spec)
 
     # Set up the optimizer
     optim = midas.Midas(
@@ -58,6 +58,7 @@ def test_midas():
         print(f"Step {i}: {optim.optimal}")
 
     print(f"Done. Final point: {optim.optimal}")
+    print(f"Loss: {optim.loss(tuple(optim.optimal))}")
 
 
 # test_midas()
@@ -69,7 +70,7 @@ def test_grid():
     dimensions = ("global_buffer_size_scale", "pe_scale")
     bounds = ((0, 5), (0, 5))
     spec = os.path.join(ex_path, "top.yaml.jinja")
-    arch = Architecture(dimensions, bounds, spec)
+    arch = Eyeriss(dimensions, bounds, spec)
 
     # Set up the optimizer
     optim = grid.Grid(
