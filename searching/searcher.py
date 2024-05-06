@@ -24,6 +24,7 @@ def get_architecture_targets():
 
 def run_mapper(
     arch_target,
+    run_id: str,  # for output directory
     problem: Optional[str] = None,
     generate_ref_outputs: Optional[bool] = False,
     remove_sparse_opts: Optional[bool] = False,
@@ -40,9 +41,9 @@ def run_mapper(
 
     # Set up output directory
     if generate_ref_outputs:
-        output_dir = f"{ARCH_DIR}/{arch_target}/ref_outputs/{problem_name}"
+        output_dir = f"{ARCH_DIR}/{arch_target}/ref_outputs/{run_id}/{problem_name}"
     else:
-        output_dir = f"{ARCH_DIR}/{arch_target}/outputs/{problem_name}"
+        output_dir = f"{ARCH_DIR}/{arch_target}/outputs/{run_id}/{problem_name}"
 
     print(f"\n\nRunning mapper for target {arch_target} in {output_dir}...")
 
@@ -91,11 +92,23 @@ if __name__ == "__main__":
     generate_ref_outputs = False
     remove_sparse_opts = False
 
+    arch_structures = [
+        {"meshX": 12, "meshY": 14},
+        {"meshX": 6, "meshY": 18},
+    ]
+
     # Run parallel processes for all architectures and problems
     joblib.Parallel(n_jobs=n_jobs)(
         joblib.delayed(run_mapper)(
-            a, p, generate_ref_outputs, remove_sparse_opts, meshX=12, meshY=14
+            a,
+            f"{structure['meshX']}x{structure['meshY']}",
+            p,
+            generate_ref_outputs,
+            remove_sparse_opts,
+            meshX=structure["meshX"],
+            meshY=structure["meshY"],
         )
         for a in arch
         for p in problems
+        for structure in arch_structures
     )
