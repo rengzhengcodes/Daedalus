@@ -14,3 +14,9 @@
 [submodule "lib/timeloop-python"]
 	path = lib/timeloop-python
 	url = git@github.com:Accelergy-Project/timeloop-python.git
+[submodule "lib/accelergy-cacti-plug-in"]
+	path = lib/accelergy-cacti-plug-in
+	url = git@github.com:Accelergy-Project/accelergy-cacti-plug-in.git
+[submodule "lib/accelergy-neurosim-plug-in"]
+	path = lib/accelergy-neurosim-plug-in
+	url = git@github.com:Accelergy-Project/accelergy-neurosim-plug-in.git
