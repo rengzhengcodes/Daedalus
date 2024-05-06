@@ -8,9 +8,9 @@ def readme():
 
 
 setup(
-    name="accelergy",
-    version="0.4",
-    description="Accelergy Estimation Framework",
+    name="daedalus",
+    version="0.1",
+    description="Daedalus automatic accelerator design tool framework.",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",
@@ -18,34 +18,19 @@ setup(
         "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
     ],
     keywords="accelerator hardware energy estimation",
-    author="Yannan Wu",
-    author_email="nelliewu@mit.edu",
+    author="Reng Zheng, Luc Gaitskell",
+    author_email="rengz@mit.edu, lucg@mit.edu",
     license="MIT",
-    packages=["accelergy"],
+    packages=["daedalus"],
     install_requires=[
         "pyYAML >= 1.1",
         "pyfiglet",
         "ruamel.yaml >= 0.17.20",
         "deepdiff >= 6.2.3",
         "Jinja2 >= 3.1.3",
+        "timeloopfe >= 0.0.1",
     ],
     python_requires=">=3.8",
-    data_files=[
-        ("share/accelergy/primitive_component_libs", []),
-        (
-            "share/accelergy/estimation_plug_ins/dummy_tables",
-            [
-                "share/estimation_plug_ins/dummy_tables/dummy.estimator.yaml",
-                "share/estimation_plug_ins/dummy_tables/dummy_table.py",
-            ],
-        ),
-    ],
     include_package_data=True,
-    entry_points={
-        "console_scripts": [
-            "accelergy=accelergy.accelergy_console:main",
-            "accelergyDefineArch=accelergy.accelergy_define_arch_console:main",
-        ],
-    },
     zip_safe=False,
 )

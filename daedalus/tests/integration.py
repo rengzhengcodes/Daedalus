@@ -32,8 +32,6 @@ def test_sgd():
         prev_step = optim.x
     print(f"Done. Final point: {optim.x}, Previous: {prev_step}")
 
-test_sgd()
-
 def test_midas():
     """Perform optimization on the Eyeriss architecture."""
     # Set up the search space
@@ -54,4 +52,6 @@ def test_midas():
     print(f"Done. Final point: {optim.optimal}")
     print(f"Loss: {optim.loss(tuple(optim.optimal))}")
 
-test_midas()
+if __name__ == "__main__":
+    test_sgd()
+    test_midas()
