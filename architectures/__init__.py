@@ -17,4 +17,31 @@ class Architecture:
         # Converts the array into a dictionary.
         x_dict = {self._dimensions[i]: x[i] for i in range(len(x))}
 
-       
+        if brief_print:
+            print('.', end='')
+        # Set up the specification
+        spec = tl.Specification.from_yaml_files(TOP_PATH)
+        buf = spec.architecture.find("buffer")
+        buf.attributes["depth"] = round(buf.attributes["depth"] * global_buffer_size_scale)
+        pe = spec.architecture.find("PE")
+        pe.spatial.meshX = round(pe.spatial.meshX * pe_scale)
+        spec.mapper.search_size = 2000
+
+        # Give each run a unique ID and run the mapper
+        proc_id = f"glb_scale={global_buffer_size_scale},pe_scale={pe_scale}"
+        if brief_print:
+            print('.', end='')
+        else:
+            print(f"Starting {proc_id}")
+        out_dir = f"{os.curdir}/outputs/{proc_id}"
+        tl.call_mapper(spec, output_dir=out_dir, log_to=f"{out_dir}/output.log")
+
+        # Grab the energy from the stats file
+        stats = open(f"{out_dir}/timeloop-mapper.stats.txt").read()
+        stats = [l.strip() for l in stats.split("\n") if l.strip()]
+        energy = float(stats[-1].split("=")[-1])
+        return (
+            spec.architecture.find("buffer").attributes["depth"],
+            spec.architecture.find("PE").spatial.meshX,
+            energy,
+        )
