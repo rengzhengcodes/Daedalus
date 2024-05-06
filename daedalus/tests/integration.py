@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 
-from ..architectures import Architecture
+from ..architectures.eyeriss import Eyeriss
 from ..optimizers import midas, sgd
 
 file_path = os.path.abspath(__file__)
@@ -15,7 +15,7 @@ def test_sgd():
     dimensions = ("global_buffer_size_scale", "pe_scale")
     bounds = ((-1, 8), (-1, 8))
     spec = os.path.join(ex_path, "top.yaml.jinja")
-    arch = Architecture(dimensions, bounds, spec)
+    arch = Eyeriss(dimensions, bounds, spec)
     
     # Set up the optimizer
     optim = sgd.SGD(arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1])
@@ -40,7 +40,7 @@ def test_midas():
     dimensions = ("global_buffer_size_scale", "pe_scale")
     bounds = ((-1, 8), (-1, 8))
     spec = os.path.join(ex_path, "top.yaml.jinja")
-    arch = Architecture(dimensions, bounds, spec)
+    arch = Eyeriss(dimensions, bounds, spec)
     
     # Set up the optimizer
     optim = midas.Midas(arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1])
