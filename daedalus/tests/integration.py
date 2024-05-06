@@ -10,7 +10,7 @@ def example():
     """Perform optimization on the Eyeriss architecture."""
     # Set up the search space
     dimensions = ("global_buffer_size_scale", "pe_scale")
-    bounds = ((-1, 1), (-1, 1))
+    bounds = ((-1, 8), (-1, 8))
     spec = os.path.join(ex_path, "top.yaml.jinja")
     arch = Architecture(dimensions, bounds, spec)
     
@@ -18,10 +18,13 @@ def example():
     sgd = SGD(arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1])
     
     # Perform the optimization
-    for i in range(100):
+    prev_step = sgd._x
+    for i in range(10):
         sgd.step()
-        print(f"Step {i}: {sgd.x}")
+        print(f"Step {i}: {sgd._x}")
         print(f"Loss: {sgd.loss(tuple(sgd._x))}")
         print()
+        if prev_step == sgd._x:
+            break
 
 example()
