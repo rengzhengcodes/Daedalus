@@ -1,9 +1,10 @@
 import os
 
+import math
 import numpy as np
 
 from ..architectures import Architecture
-from ..optimizers import midas, sgd
+from ..optimizers import midas, sgd, grid
 
 file_path = os.path.abspath(__file__)
 ex_path = os.path.join(os.path.dirname(file_path))
@@ -53,4 +54,36 @@ def test_midas():
 
     print(f"Done. Final point: {optim.optimal}")
 
-test_midas()
+
+# test_midas()
+
+
+def test_grid():
+    """Perform optimization on the Eyeriss architecture."""
+    # Set up the search space
+    dimensions = ("global_buffer_size_scale", "pe_scale")
+    bounds = ((0, 5), (0, 5))
+    spec = os.path.join(ex_path, "top.yaml.jinja")
+    arch = Architecture(dimensions, bounds, spec)
+
+    # Set up the optimizer
+    optim = grid.Grid(
+        arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1]
+    )
+
+    # Perform the optimization
+    total_iters = math.prod(
+        len(range(*bounds[dim_idx])) for dim_idx, dim in enumerate(dimensions)
+    )
+
+    print(f"Running {total_iters} steps!")
+    for i in range(total_iters):
+        print(f"Starting step {i}: {optim._space_idx}")
+        optim.step()
+        print(f"Loss: {optim.loss(tuple(optim._space_idx_last))}")
+        print(f"Step {i} optimal: {optim.optimal}")
+
+    print(f"Done. Final point: {optim.optimal} with loss {optim._optimal}")
+
+
+test_grid()
