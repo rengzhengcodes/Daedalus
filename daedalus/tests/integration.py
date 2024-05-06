@@ -32,13 +32,13 @@ def test_sgd():
         prev_step = optim.x
     print(f"Done. Final point: {optim.x}, Previous: {prev_step}")
 
-# test_sgd()
+test_sgd()
 
 def test_midas():
     """Perform optimization on the Eyeriss architecture."""
     # Set up the search space
     dimensions = ("global_buffer_size_scale", "pe_scale")
-    bounds = ((0, 5), (0, 5))
+    bounds = ((-1, 8), (-1, 8))
     spec = os.path.join(ex_path, "top.yaml.jinja")
     arch = Architecture(dimensions, bounds, spec)
     
