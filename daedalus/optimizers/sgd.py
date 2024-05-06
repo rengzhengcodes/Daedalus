@@ -7,9 +7,9 @@ class SGD(Optimizer):
     """Performs stochastic gradient descent."""
     def __init__(self, space: OrthoSpace, loss: Callable) -> None:
         super().__init__(space, loss)
-        self.x: array = self.space.center()
+        self._x: array = self.space.center()
     
-    def step(self, x) -> None:
+    def step(self) -> None:
         """
         Take a step in the search space from x
         
@@ -35,4 +35,8 @@ class SGD(Optimizer):
             else:
                 gradient[i] = 0
         
-        self.x += gradient
+        self._x += gradient
+    
+    @property
+    def x(self) -> array:
+        return self._x

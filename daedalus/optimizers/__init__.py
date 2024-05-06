@@ -23,7 +23,6 @@ class Space(ABC):
         self._dimensions: tuple = tuple(dimensions)
         self._bounds: tuple = tuple(bounds)
     
-    @abstractmethod
     def contains(self, x: Iterable[int]) -> bool:
         """Check if the point x is in the search space."""
         for i, (lower, upper) in enumerate(self._bounds):
@@ -31,12 +30,10 @@ class Space(ABC):
                 return False
         return True
 
-    @abstractmethod
     def center(self) -> tuple:
         """Return the center of the search space."""
-        return np.array((lower + upper) // 2 for lower, upper in self._bounds)
+        return np.array(tuple((lower + upper) // 2 for lower, upper in self._bounds))
     
-    @abstractmethod
     def in_dim(self, i: float, x: float) -> bool:
         """Check if x is in the bounds of the ith dimension of the search space."""
         return self._bounds[i][0] <= x < self._bounds[i][1]
