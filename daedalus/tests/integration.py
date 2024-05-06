@@ -32,7 +32,7 @@ def test_sgd():
         prev_step = optim.x
     print(f"Done. Final point: {optim.x}, Previous: {prev_step}")
 
-# test_sgd()
+test_sgd()
 
 def test_midas():
     """Perform optimization on the Eyeriss architecture."""
