@@ -29,7 +29,11 @@ def run_mapper(
     remove_sparse_opts: Optional[bool] = False,
 ):
     # This data will be supplied when rendering the top jinja2 template
-    jinja_parse_data = {"architecture": arch_target}
+    jinja_parse_data = {
+        "architecture": arch_target,
+        "meshX": 12,
+        "meshY": 14,
+    }
 
     if problem is None:
         problem_name = "default_problem"
