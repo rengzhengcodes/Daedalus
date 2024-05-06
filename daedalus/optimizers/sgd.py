@@ -16,14 +16,15 @@ class SGD(Optimizer):
         Returns:
             A tuple representing the next point in the search space.
         """
-        gradient: array = np.zeros(self.x.shape)
-        x_loss: float = self.loss(self.x)
+        print(self.x)
+        gradient: array = np.zeros(self.x.shape, dtype=np.int64)
+        x_loss: float = self.loss(tuple(self.x))
 
-        for i, (lower, upper) in enumerate(self.space.adj(x)):
+        for i, (lower, upper) in enumerate(self.space.adj(self.x)):
             # Checks the gradient of the loss function at the current point.
-            if (l_loss := self.loss(lower)) < x_loss:
+            if (self.space.contains(lower) and (l_loss := self.loss(tuple(lower)))) < x_loss:
                 gradient[i] -= l_loss
-            if (u_loss := self.loss(upper)) < x_loss:
+            if (self.space.contains(upper) and (u_loss := self.loss(tuple(upper)))) < x_loss:
                 gradient[i] += u_loss
             
             # Moves in the opposite direction of the gradient. If we are at a
@@ -34,7 +35,7 @@ class SGD(Optimizer):
                     gradient[i] = 0
             else:
                 gradient[i] = 0
-        
+
         self._x += gradient
     
     @property

@@ -1,7 +1,10 @@
-from ..optimizers import OrthoSpace, array
+import functools
 import os
+
+import numpy as np
 import timeloopfe.v4 as tl
-brief_point = False
+
+from ..optimizers import OrthoSpace, array
 
 class Architecture:
     def __init__(self, dimensions: tuple, bounds: tuple, spec: str) -> None:
@@ -11,8 +14,10 @@ class Architecture:
         self._orthospace: OrthoSpace = OrthoSpace(self._dimensions, self._bounds)
         self._spec: str = spec
 
-    def evaluate(self, x: array, brief_print: bool=False) -> float:
+    @functools.lru_cache
+    def evaluate(self, x: tuple, brief_print: bool=False) -> float:
         """Evaluate the architecture at point x."""
+        x = np.array(x)
         assert self._orthospace.contains(x), "Point x is not in the search space."
         # Converts the array into a dictionary.
         x_dict = {self._dimensions[i]: x[i] for i in range(len(x))}
@@ -22,13 +27,13 @@ class Architecture:
         # Set up the specification
         spec = tl.Specification.from_yaml_files(self._spec)
         buf = spec.architecture.find("buffer")
-        buf.attributes["depth"] = round(buf.attributes["depth"] * (2 ** x_dict["global_buffer_size_scale"]))
+        buf.attributes["depth"] = round(buf.attributes["depth"] * (2.0 ** x_dict["global_buffer_size_scale"]))
         pe = spec.architecture.find("PE")
-        pe.spatial.meshX = round(pe.spatial.meshX * (2 ** x_dict["pe_scale"]))
+        pe.spatial.meshX = round(pe.spatial.meshX * (2.0 ** x_dict["pe_scale"]))
         spec.mapper.search_size = 2000
 
         # Give each run a unique ID and run the mapper
-        proc_id = f"glb_scale={2 ** x_dict['global_buffer_size_scale']},pe_scale={2 ** x_dict['pe_scale']}"
+        proc_id = f"glb_scale={2.0 ** x_dict['global_buffer_size_scale']},pe_scale={2.0 ** x_dict['pe_scale']}"
         if brief_print:
             print('.', end='')
         else:
