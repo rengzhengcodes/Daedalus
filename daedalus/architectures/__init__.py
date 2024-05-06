@@ -28,7 +28,7 @@ class Architecture:
         spec.mapper.search_size = 2000
 
         # Give each run a unique ID and run the mapper
-        proc_id = f"glb_scale={2 ** x_dict["global_buffer_size_scale"]},pe_scale={2 ** x_dict["pe_scale"]}"
+        proc_id = f"glb_scale={2 ** x_dict['global_buffer_size_scale']},pe_scale={2 ** x_dict['pe_scale']}"
         if brief_print:
             print('.', end='')
         else:

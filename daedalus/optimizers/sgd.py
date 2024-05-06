@@ -1,4 +1,4 @@
-from optimizers import Optimizer, OrthoSpace, array
+from . import Optimizer, OrthoSpace, array
 from typing import Callable, Generator
 
 import numpy as np

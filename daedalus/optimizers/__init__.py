@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
-from typing import Callable, Generator
+from typing import Callable, Generator, Iterable, Tuple
 
 import numpy as np
-array = np.ndarray
+import numpy.typing as npt
+array = npt.NDArray
 
 class Space(ABC):
     """Abstract base class for discrete-space search spaces."""
-    def __init__(self, dimensions: array[str], bounds: array[int, int]) -> None:
+    def __init__(self, dimensions: Iterable[str], bounds: Tuple[int, int]) -> None:
         """
         Initialize the search space with the dimensions of the space. Assumes
         all dimensions can be orthogonalized (i.e., no two dimensions are collinear).
@@ -23,7 +24,7 @@ class Space(ABC):
         self._bounds: tuple = tuple(bounds)
     
     @abstractmethod
-    def contains(self, x: array[int]) -> bool:
+    def contains(self, x: Iterable[int]) -> bool:
         """Check if the point x is in the search space."""
         for i, (lower, upper) in enumerate(self._bounds):
             if not lower <= x[i] < upper:
@@ -42,10 +43,10 @@ class Space(ABC):
 
 class OrthoSpace(Space):
     """A Space in which all input dimensions are assumed to be orthogonal."""
-    def __init__(self, dimensions: array[str], bounds: array[int, int]) -> None:
+    def __init__(self, dimensions: Iterable[str], bounds: Tuple[int, int]) -> None:
         super().__init__(dimensions, bounds)
 
-    def adj(self, x: array) -> Generator[array[tuple]]:
+    def adj(self, x: array) -> Generator[array[tuple], None, None]:
         """
         Return the adjacent points to x in the search space.
         
@@ -72,7 +73,7 @@ class OrthoSpace(Space):
 
 class Optimizer(ABC):
     """Abstract base class for discrete-space optimizers."""
-    def __init__(self, space: DiscreteOrthoSpace, loss: Callable) -> None:
+    def __init__(self, space: OrthoSpace, loss: Callable) -> None:
         """
         Initialize the optimizer with the space it will search over and the
         loss function it will use to evaluate points in that space.
