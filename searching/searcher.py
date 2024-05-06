@@ -14,8 +14,8 @@ TOP_JINJA_PATH = os.path.join(ARCH_DIR, "top.yaml.jinja2")
 def get_architecture_targets():
     targets = []
     for root, dirs, files in os.walk(ARCH_DIR):
-        if "arch.yaml" in files:
-            c = open(os.path.join(root, "arch.yaml")).read()
+        if "arch.yaml.jinja2" in files:
+            c = open(os.path.join(root, "arch.yaml.jinja2")).read()
             if "version: 0.4" not in c:
                 continue
             targets.append(os.path.relpath(root, ARCH_DIR))
