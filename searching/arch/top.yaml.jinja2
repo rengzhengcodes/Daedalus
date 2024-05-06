@@ -42,7 +42,7 @@ extra_mapping_constraints:
 # ==============================================================================
 # ARCHITECTURE SPECIFICATION
 # ==============================================================================
-architecture: {{include(cwd() ~ '/' ~ architecture ~ '/arch.yaml', 'architecture')}}
+architecture: {{include(cwd() ~ '/' ~ architecture ~ '/arch.yaml.jinja2', 'architecture')}}
 
 # ==============================================================================
 # TOP-LEVEL VARIABLES
