@@ -15,10 +15,9 @@ ex_path = os.path.abspath(ex_path)
 dimensions = ("global_buffer_size_scale", "pe_scale")
 bounds = ((-1, 8), (-1, 8))
 spec = os.path.join(ex_path, "top.yaml.jinja")
-arch = Eyeriss(dimensions, bounds, spec)
 
 
-def test_sgd(problem):
+def test_sgd(problem, arch):
     """Perform optimization on the Eyeriss architecture."""
 
     # Set up the optimizer
@@ -38,7 +37,7 @@ def test_sgd(problem):
     print(f"DONE. Final point: {optim.x}, Previous: {prev_step}")
 
 
-def test_midas(problem):
+def test_midas(problem, arch):
     """Perform optimization on the Eyeriss architecture."""
     # Set up the optimizer
     optim = midas.Midas(
@@ -56,7 +55,7 @@ def test_midas(problem):
     )
 
 
-def test_grid(problem):
+def test_grid(problem, arch):
     """Perform optimization on the Eyeriss architecture."""
     # Set up the optimizer
     optim = grid.Grid(
@@ -82,6 +81,7 @@ def test_grid(problem):
 
 if __name__ == "__main__":
     for problem in ["VGG02_layer1.yaml", "VGG02_layer2.yaml"]:
+        arch = Eyeriss(dimensions, bounds, spec)
         print(f"====Running problem {problem}====")
         for test, tfunc in [
             ("SGD", test_sgd),
@@ -91,7 +91,7 @@ if __name__ == "__main__":
             print(f"Running {test}")
 
             t_start = time.time()
-            tfunc(problem)
+            tfunc(problem, arch)
             t_end = time.time()
 
             print(f"Time taken: {t_end - t_start:.1f}s", end="\n\n")
