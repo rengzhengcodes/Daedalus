@@ -32,8 +32,7 @@ def test_sgd(problem, arch):
         eval_total += optim.step()
         print(f"Step {i}: {optim.x} | Loss: {optim.loss(tuple(optim.x))}")
         print()
-        if np.array_equal(optim._x, prev_step):
-            print("FOUND")
+        if np.array_equal(optim.x, prev_step):
             break
         prev_step = optim.x
     print(f"DONE. Final point: {optim.x}, Previous: {prev_step}")
