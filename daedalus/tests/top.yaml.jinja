@@ -6,4 +6,4 @@ architecture: {{include('arch.yaml', 'architecture')}}
 components:   {{include('components.yaml', 'components')}}
 variables:    {{include('variables.yaml', 'variables')}}
 mapper:       {{include('mapper.yaml', 'mapper')}}
-problem:      {{include(problem|default('problem.yaml'), 'problem')}}
+problem:      {{include(('problems/' ~ problem)|default('problem.yaml'), 'problem')}}
