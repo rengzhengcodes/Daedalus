@@ -3,7 +3,7 @@ import time
 import math
 import numpy as np
 
-from ...architectures.eyeriss import Eyeriss
+from ...architectures.simba import Simba
 from ...optimizers import midas, sgd, grid
 
 file_path = os.path.abspath(__file__)
@@ -59,7 +59,7 @@ def test_midas(problem, arch):
 
 
 def test_grid(problem, arch):
-    """Perform optimization on the Eyeriss architecture."""
+    """Perform optimization on the Simba architecture."""
     # Set up the optimizer
     optim = grid.Grid(
         arch._orthospace, lambda x: arch.evaluate(x, problem, brief_print=True)[-1]

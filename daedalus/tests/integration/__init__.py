@@ -33,7 +33,7 @@ def test_midas(problem, arch):
     )
 
     # Perform the optimization
-    for i in range(len(dimensions)):
+    for i in range(len(arch._dimensions)):
         # print(f"Starting step {i}")
         optim.step()
         print(f"Step {i}: {optim.optimal}")
@@ -41,7 +41,7 @@ def test_midas(problem, arch):
     print(
         f"DONE. Final point: {optim.optimal} | Loss: {optim.loss(tuple(optim.optimal))}"
     )
-    return sum(len(range(*arch._orthospace.bounds[dim_idx])) for dim_idx, dim in enumerate(dimensions))
+    return sum(len(range(*arch._orthospace._bounds[dim_idx])) for dim_idx, dim in enumerate(arch._dimensions))
 
 
 def test_grid(problem, arch):
@@ -53,7 +53,7 @@ def test_grid(problem, arch):
 
     # Perform the optimization
     total_iters = math.prod(
-        len(range(*arch._orthospace.bounds[dim_idx])) for dim_idx, dim in enumerate(dimensions)
+        len(range(*arch._orthospace._bounds[dim_idx])) for dim_idx, dim in enumerate(arch._dimensions)
     )
 
     print(f"Running {total_iters} steps!")
