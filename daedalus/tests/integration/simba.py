@@ -3,8 +3,8 @@ import time
 import math
 import numpy as np
 
-from ..architectures.eyeriss import Eyeriss
-from ..optimizers import midas, sgd, grid
+from ...architectures.eyeriss import Eyeriss
+from ...optimizers import midas, sgd, grid
 
 file_path = os.path.abspath(__file__)
 ex_path = os.path.join(os.path.dirname(file_path))
@@ -14,11 +14,11 @@ ex_path = os.path.abspath(ex_path)
 # Set up the search space
 dimensions = ("global_buffer_size_scale", "pe_scale")
 bounds = ((-1, 8), (-1, 8))
-spec = os.path.join(ex_path, "cases", "eyeriss_top.yaml.jinja")
+spec = os.path.join(ex_path, "cases", "simba_top.yaml.jinja")
 
 
 def test_sgd(problem, arch):
-    """Perform optimization on the Eyeriss architecture."""
+    """Perform optimization on the Simba architecture."""
 
     # Set up the optimizer
     optim = sgd.SGD(
@@ -40,7 +40,7 @@ def test_sgd(problem, arch):
 
 
 def test_midas(problem, arch):
-    """Perform optimization on the Eyeriss architecture."""
+    """Perform optimization on the Simba architecture."""
     # Set up the optimizer
     optim = midas.Midas(
         arch._orthospace, lambda x: arch.evaluate(x, problem, brief_print=True)[-1]
@@ -85,7 +85,7 @@ def test_grid(problem, arch):
 
 if __name__ == "__main__":
     for problem in ["VGG02_layer1.yaml", "VGG02_layer2.yaml"]:
-        arch = Eyeriss(dimensions, bounds, spec)
+        arch = Simba(dimensions, bounds, spec)
         print(f"====Running problem {problem}====")
         for test, tfunc in [
             ("SGD", test_sgd),
