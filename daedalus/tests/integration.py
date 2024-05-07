@@ -18,9 +18,12 @@ def test_sgd():
     bounds = ((-1, 8), (-1, 8))
     spec = os.path.join(ex_path, "top.yaml.jinja")
     arch = Eyeriss(dimensions, bounds, spec)
+    problem = "VGG02_layer1.yaml"
 
     # Set up the optimizer
-    optim = sgd.SGD(arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1])
+    optim = sgd.SGD(
+        arch._orthospace, lambda x: arch.evaluate(x, problem, brief_print=True)[-1]
+    )
 
     # Perform the optimization
     print(f"Initial point: {(prev_step := optim.x)}")
@@ -45,10 +48,11 @@ def test_midas():
     bounds = ((-1, 8), (-1, 8))
     spec = os.path.join(ex_path, "top.yaml.jinja")
     arch = Eyeriss(dimensions, bounds, spec)
+    problem = "VGG02_layer1.yaml"
 
     # Set up the optimizer
     optim = midas.Midas(
-        arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1]
+        arch._orthospace, lambda x: arch.evaluate(x, problem, brief_print=True)[-1]
     )
 
     # Perform the optimization
@@ -71,10 +75,11 @@ def test_grid():
     bounds = ((0, 5), (0, 5))
     spec = os.path.join(ex_path, "top.yaml.jinja")
     arch = Eyeriss(dimensions, bounds, spec)
+    problem = "VGG02_layer1.yaml"
 
     # Set up the optimizer
     optim = grid.Grid(
-        arch._orthospace, lambda x: arch.evaluate(x, brief_print=True)[-1]
+        arch._orthospace, lambda x: arch.evaluate(x, problem, brief_print=True)[-1]
     )
 
     # Perform the optimization

@@ -6,12 +6,16 @@ from . import Architecture
 
 
 class Eyeriss(Architecture):
-    def _evaluate(self, x_dict: dict, brief_print: bool = False) -> float:
+    def _evaluate(
+        self, x_dict: dict, eval_problem: str, brief_print: bool = False
+    ) -> float:
         if brief_print:
             print(".", end="")
 
         # Set up the specification
-        spec = tl.Specification.from_yaml_files(self._spec)
+        spec = tl.Specification.from_yaml_files(
+            self._spec, jinja_parse_data={"problem": eval_problem}
+        )
         buf = spec.architecture.find("shared_glb")
         buf.attributes["depth"] = round(
             buf.attributes["depth"] * (2.0 ** x_dict["global_buffer_size_scale"])
