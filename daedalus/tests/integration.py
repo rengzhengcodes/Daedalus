@@ -14,7 +14,7 @@ ex_path = os.path.abspath(ex_path)
 # Set up the search space
 dimensions = ("global_buffer_size_scale", "pe_scale")
 bounds = ((-1, 8), (-1, 8))
-spec = os.path.join(ex_path, "top.yaml.jinja")
+spec = os.path.join(ex_path, "cases", "eyeriss_top.yaml.jinja")
 
 
 def test_sgd(problem, arch):
