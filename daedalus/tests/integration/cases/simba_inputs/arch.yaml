@@ -31,7 +31,7 @@ architecture:
     name: PE
     spatial: {meshX: 16}
     constraints:
-      spatial: {factors: R=1 S=1 P=1 Q=1 N=1, permutation: [M, C, R, S, P, Q, N]}
+      spatial: {factors: [R=1, S=1, P=1, Q=1, N=1], permutation: [M, C, R, S, P, Q, N]}
 
   - !Component # Input buffer
     name: PEInputBuffer
@@ -48,7 +48,7 @@ architecture:
     name: distributed_buffers
     spatial: {meshY: 4}
     constraints:
-      spatial: {factors: P=1 Q=1 R=1 S=1 C=1 N=1, permutation: [M, C, Q, R, S, P, N]}
+      spatial: {factors: [P=1, Q=1, R=1, S=1, C=1, N=1], permutation: [M, C, Q, R, S, P, N]}
 
   - !Parallel # Weight/accumulator buffers
     nodes:
@@ -81,7 +81,7 @@ architecture:
     name: reg_mac
     spatial: {meshY: 4}
     constraints:
-      spatial: {factors: P=1 Q=1 R=1 S=1 M=1 N=1, permutation: [C, M, Q, R, S, P, N]}
+      spatial: {factors: [P=1, Q=1, R=1, S=1, M=1, N=1], permutation: [C, M, Q, R, S, P, N]}
 
   - !Component # Weight registers
     name: PEWeightRegs
