@@ -74,7 +74,7 @@ def test_grid(problem):
         optim.step()
         print(
             f"Step {i}: {optim._space_idx} with loss {optim.loss(tuple(optim._space_idx_last))}"
-            " | optimal: {optim.optimal} with loss: {optim._optimal}"
+            f" | optimal: {optim.optimal} with loss: {optim._optimal}"
         )
 
     print(f"DONE. Final point: {optim.optimal} with loss {optim._optimal}")
