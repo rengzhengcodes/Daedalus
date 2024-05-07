@@ -1,5 +1,5 @@
 import os
-
+import time
 import math
 import numpy as np
 
@@ -11,14 +11,15 @@ ex_path = os.path.join(os.path.dirname(file_path))
 ex_path = os.path.abspath(ex_path)
 
 
-def test_sgd():
+# Set up the search space
+dimensions = ("global_buffer_size_scale", "pe_scale")
+bounds = ((-1, 8), (-1, 8))
+spec = os.path.join(ex_path, "top.yaml.jinja")
+arch = Eyeriss(dimensions, bounds, spec)
+
+
+def test_sgd(problem):
     """Perform optimization on the Eyeriss architecture."""
-    # Set up the search space
-    dimensions = ("global_buffer_size_scale", "pe_scale")
-    bounds = ((-1, 8), (-1, 8))
-    spec = os.path.join(ex_path, "top.yaml.jinja")
-    arch = Eyeriss(dimensions, bounds, spec)
-    problem = "VGG02_layer1.yaml"
 
     # Set up the optimizer
     optim = sgd.SGD(
@@ -29,27 +30,16 @@ def test_sgd():
     print(f"Initial point: {(prev_step := optim.x)}")
     for i in range(10):
         optim.step()
-        print(f"Step {i}: {optim.x}")
-        print(f"Loss: {optim.loss(tuple(optim.x))}")
+        print(f"Step {i}: {optim.x} | Loss: {optim.loss(tuple(optim.x))}")
         print()
         if np.array_equal(optim._x, prev_step):
             break
         prev_step = optim.x
-    print(f"Done. Final point: {optim.x}, Previous: {prev_step}")
+    print(f"DONE. Final point: {optim.x}, Previous: {prev_step}")
 
 
-test_sgd()
-
-
-def test_midas():
+def test_midas(problem):
     """Perform optimization on the Eyeriss architecture."""
-    # Set up the search space
-    dimensions = ("global_buffer_size_scale", "pe_scale")
-    bounds = ((-1, 8), (-1, 8))
-    spec = os.path.join(ex_path, "top.yaml.jinja")
-    arch = Eyeriss(dimensions, bounds, spec)
-    problem = "VGG02_layer1.yaml"
-
     # Set up the optimizer
     optim = midas.Midas(
         arch._orthospace, lambda x: arch.evaluate(x, problem, brief_print=True)[-1]
@@ -57,26 +47,17 @@ def test_midas():
 
     # Perform the optimization
     for i in range(len(dimensions)):
-        print(f"Starting step {i}")
+        # print(f"Starting step {i}")
         optim.step()
         print(f"Step {i}: {optim.optimal}")
 
-    print(f"Done. Final point: {optim.optimal}")
-    print(f"Loss: {optim.loss(tuple(optim.optimal))}")
+    print(
+        f"DONE. Final point: {optim.optimal} | Loss: {optim.loss(tuple(optim.optimal))}"
+    )
 
 
-# test_midas()
-
-
-def test_grid():
+def test_grid(problem):
     """Perform optimization on the Eyeriss architecture."""
-    # Set up the search space
-    dimensions = ("global_buffer_size_scale", "pe_scale")
-    bounds = ((0, 5), (0, 5))
-    spec = os.path.join(ex_path, "top.yaml.jinja")
-    arch = Eyeriss(dimensions, bounds, spec)
-    problem = "VGG02_layer1.yaml"
-
     # Set up the optimizer
     optim = grid.Grid(
         arch._orthospace, lambda x: arch.evaluate(x, problem, brief_print=True)[-1]
@@ -91,10 +72,26 @@ def test_grid():
     for i in range(total_iters):
         print(f"Starting step {i}: {optim._space_idx}")
         optim.step()
-        print(f"Loss: {optim.loss(tuple(optim._space_idx_last))}")
-        print(f"Step {i} optimal: {optim.optimal}")
+        print(
+            f"Step {i}: {optim._space_idx} with loss {optim.loss(tuple(optim._space_idx_last))}"
+            " | optimal: {optim.optimal} with loss: {optim._optimal}"
+        )
 
-    print(f"Done. Final point: {optim.optimal} with loss {optim._optimal}")
+    print(f"DONE. Final point: {optim.optimal} with loss {optim._optimal}")
 
 
-test_grid()
+if __name__ == "__main__":
+    for problem in ["VGG02_layer1.yaml", "VGG02_layer2.yaml"]:
+        print(f"====Running problem {problem}====")
+        for test, tfunc in [
+            ("SGD", test_sgd),
+            ("Midas", test_midas),
+            ("Grid", test_grid),
+        ]:
+            print(f"Running {test}")
+
+            t_start = time.time()
+            tfunc(problem)
+            t_end = time.time()
+
+            print(f"Time taken: {t_end - t_start:.1f}s", end="\n\n")
