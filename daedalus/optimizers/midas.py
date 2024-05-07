@@ -19,11 +19,11 @@ class Midas(Optimizer):
         Returns:
             A tuple representing the next point in the search space.
         """
-        # Makes a copy of x to do the axial comparisons on.
-        x: array = self.space.center()
 
         # Creates the parallelizable process.
         def eval_point(point: int) -> None:
+            # Makes a copy of x to do the axial comparisons on.
+            x: array = self.space.center()
             # Calculates the new point on that dimension.
             x[self.dim] = point
             # Calculates the loss of the new point.
