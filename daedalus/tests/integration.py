@@ -29,7 +29,7 @@ def test_sgd():
         print(f"Step {i}: {optim.x}")
         print(f"Loss: {optim.loss(tuple(optim.x))}")
         print()
-        if np.array_equal(optim._x, prev_step):
+        if np.array_equal(optim.x, prev_step):
             break
         prev_step = optim.x
     print(f"Done. Final point: {optim.x}, Previous: {prev_step}")
