@@ -3,6 +3,14 @@ A heuristical model of hardware architecture search-space optimization through t
 
 Optimizers implements discretized versions of all the algorithms listed.
 
+## Getting Started
+Getting started with Daedalus is best done in a docker-container until one becomes familiar with the code structure. Thus, we have provided the following docker container, [Daedalus-Infastructure](https://github.com/rengzhengcodes/Daedalus-Infrastructure), which can be set up in the following steps:
+ 1. Clone the [Daedalus-Infrastructure](https://github.com/rengzhengcodes/Daedalus-Infrastructure) library and run ```$ git submodule update --init --recursive``` in the root directory of the repository.
+ 2. Then, run ```docker-compose up``` to start the docker container.
+ 3. SSH into the docker container, and run ```$ cd /home/workspace/Daedalus``` to enter the Daedalus repository.
+ 4. Run ```$ make -j8``` to compile the file and all dependencies and install Daedalus into the docker Python library.
+ 5. You're done! Feel free to reference the ```daedalus/tests``` directory in the Daedalus repository as a reference for how to use the tool.
+
 ---
 
 # Report Due Date: May 06, 2024, 11:59PM EST
