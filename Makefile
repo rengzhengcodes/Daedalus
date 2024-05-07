@@ -9,6 +9,12 @@ export LIBRARY_PATH := $(LIBRARY_PATH):/usr/local/lib
 export TIMELOOP_INCLUDE_PATH := $(shell pwd)/lib/timeloop/include
 export TIMELOOP_LIB_PATH := $(shell pwd)/lib/timeloop/lib
 
+install_all:
+	make install_timeloop
+	make install_pytimeloop
+	make install_accelergy
+	make install_self
+
 ## @note Very explicitly ripped from accelergy-timeloop-infrastructure. Thanks Tanner!
 # https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
 install_timeloop:
@@ -70,6 +76,8 @@ install_timeloop:
 	cp lib/timeloop/build/timeloop-metrics ~/.local/bin/timeloop-metrics
 	cp lib/timeloop/build/timeloop-model ~/.local/bin/timeloop-model
 
+## @note Very explicitly ripped from accelergy-timeloop-infrastructure. Thanks Tanner!
+# https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
 install_pytimeloop:
 	echo $(TIMELOOP_INCLUDE_PATH)
 	echo $(TIMELOOP_LIB_PATH)
@@ -77,13 +85,17 @@ install_pytimeloop:
 		&& pip3 install -e . \
 		&& rm -rf build
 
+## @note Very explicitly ripped from accelergy-timeloop-infrastructure. Thanks Tanner!
+# https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
 install_accelergy:
 	python3 -m pip install setuptools wheel libconf numpy joblib
+	cd lib/accelergy-library-plug-in && pip3 install .
+	cd lib/accelergy-cacti-plug-in && make build && pip3 install .
+	cd lib/accelergy-neurosim-plug-in && python3 setup.py build_ext && pip install .
+	cd lib/accelergy-aladdin-plug-in && pip3 install .
 	cd lib && pip3 install ./accelergy*
-	cd lib/accelergy-library-plug-in && pip3 install -e .
-	cd lib/accelergy-cacti-plug-in && make
-	cd lib/accelergy-neurosim-plug-in && make
-	cd lib/accelergy-aladdin-plug-in && pip3 install -e .
 
+## @note Very explicitly ripped from accelergy-timeloop-infrastructure. Thanks Tanner!
+# https://github.com/Accelergy-Project/accelergy-timeloop-infrastructure/blob/master/Makefile
 install_self:
 	python3 -m pip install -e .
