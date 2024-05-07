@@ -27,14 +27,17 @@ def test_sgd(problem, arch):
 
     # Perform the optimization
     print(f"Initial point: {(prev_step := optim.x)}")
+    eval_total = 0
     for i in range(10):
-        optim.step()
+        eval_total += optim.step()
         print(f"Step {i}: {optim.x} | Loss: {optim.loss(tuple(optim.x))}")
         print()
         if np.array_equal(optim._x, prev_step):
+            print("FOUND")
             break
         prev_step = optim.x
     print(f"DONE. Final point: {optim.x}, Previous: {prev_step}")
+    return eval_total
 
 
 def test_midas(problem, arch):
@@ -53,6 +56,7 @@ def test_midas(problem, arch):
     print(
         f"DONE. Final point: {optim.optimal} | Loss: {optim.loss(tuple(optim.optimal))}"
     )
+    return sum(len(range(*bounds[dim_idx])) for dim_idx, dim in enumerate(dimensions))
 
 
 def test_grid(problem, arch):
@@ -77,6 +81,7 @@ def test_grid(problem, arch):
         )
 
     print(f"DONE. Final point: {optim.optimal} with loss {optim._optimal}")
+    return total_iters
 
 
 if __name__ == "__main__":
@@ -91,7 +96,7 @@ if __name__ == "__main__":
             print(f"Running {test}")
 
             t_start = time.time()
-            tfunc(problem, arch)
+            total_evals = tfunc(problem, arch)
             t_end = time.time()
 
-            print(f"Time taken: {t_end - t_start:.1f}s", end="\n\n")
+            print(f"Ran {total_evals} evals in {t_end - t_start:.1f}s", end="\n\n")

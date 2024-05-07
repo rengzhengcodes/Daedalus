@@ -25,18 +25,22 @@ class SGD(Optimizer):
         def eval_dim_gradient(dim: int, lower: int, upper: int):
             # Checks the gradient of the loss function at the current point.
             gradient: float = 0
+            l_loss, u_loss = None, None
             if self.space.contains(lower) and (l_loss := self.loss(tuple(lower))) < x_loss:
                 gradient -= l_loss
             if self.space.contains(upper) and (u_loss := self.loss(tuple(upper))) < x_loss:
                 gradient += u_loss
-            
-            return dim, gradient, l_loss, u_loss
+
+            eval_count = (l_loss is not None) + (u_loss is not None)
+            return dim, gradient, l_loss, u_loss, eval_count
 
         results = Parallel(n_jobs=8)(delayed(eval_dim_gradient)(dim, *bounds)
                                      for dim, bounds in enumerate(self.space.adj(self._x)))
         
         # Moves in the opposite direction of the gradient. If we are at a local minimum, we will not move.
-        for dim, gradient, l_loss, u_loss in results:
+        eval_total = 0
+        for dim, gradient, l_loss, u_loss, eval_count in results:
+            eval_total += eval_count
             print(l_loss, u_loss, x_loss)
             if x_loss >= l_loss or x_loss >= u_loss:
                 step[dim] = np.sign(gradient)
@@ -45,7 +49,8 @@ class SGD(Optimizer):
             else:
                 step[dim] = 0
         self._x += step
+        return eval_total
     
     @property
     def x(self) -> array:
-        return self._x
+        return self._x.copy()
