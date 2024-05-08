@@ -30,7 +30,7 @@ class Eyeriss(Architecture):
             print(".", end="")
         else:
             print(f"Starting {proc_id}")
-        out_dir = os.path.abspath(f"{os.curdir}/outputs/{proc_id}")
+        out_dir = os.path.abspath(f"{os.curdir}/outputs/eyeriss/{proc_id}")
         tl.call_mapper(spec, output_dir=out_dir, log_to=f"{out_dir}/output.log")
 
         # Grab the energy from the stats file

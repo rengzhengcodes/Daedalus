@@ -19,7 +19,7 @@ architecture:
     - !Container # Eyeriss accelerator
       name: eyeriss
       attributes:
-        technology: "32nm"
+        technology: "45nm"
 
     - !Component # Global buffer for inputs & outputs
       name: shared_glb

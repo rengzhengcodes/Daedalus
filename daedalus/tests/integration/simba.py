@@ -1,7 +1,5 @@
-import os
+import os, shutil
 import time
-import math
-import numpy as np
 
 from . import test_sgd, test_midas, test_grid
 from ...architectures.simba import Simba
@@ -13,7 +11,7 @@ ex_path = os.path.abspath(ex_path)
 
 # Set up the search space
 dimensions = ("global_buffer_size_scale", "pe_scale")
-bounds = ((-1, 8), (-1, 8))
+bounds = ((2, 11), (2, 11))
 spec = os.path.join(ex_path, "cases", "simba_top.yaml.jinja")
 
 
@@ -31,5 +29,9 @@ if __name__ == "__main__":
             t_start = time.time()
             total_evals = tfunc(problem, arch)
             t_end = time.time()
+
+            out_dir = os.path.abspath(f"{os.curdir}/outputs/")
+            rm_dir = os.path.join(out_dir, "simba")
+            shutil.rmtree(rm_dir)
 
             print(f"Ran {total_evals} evals in {t_end - t_start:.1f}s", end="\n\n")

@@ -1,4 +1,4 @@
-import os
+import os, shutil
 import time
 
 from . import test_sgd, test_midas, test_grid
@@ -29,5 +29,9 @@ if __name__ == "__main__":
             t_start = time.time()
             total_evals = tfunc(problem, arch)
             t_end = time.time()
+
+            out_dir = os.path.abspath(f"{os.curdir}/outputs/")
+            rm_dir = os.path.join(out_dir, "eyeriss")
+            shutil.rmtree(rm_dir)
 
             print(f"Ran {total_evals} evals in {t_end - t_start:.1f}s", end="\n\n")
