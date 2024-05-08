@@ -16,7 +16,7 @@ bounds = ((-1, 8), (-1, 8))
 
 
 if __name__ == "__main__":
-    for problem in ["VGG02_layer1.yaml", "VGG02_layer2.yaml"]:
+    for problem in [f"VGG02_layer{i}.yaml" for i in range(1, 14)]:
         arch = Eyeriss(dimensions, bounds, spec)
         print(f"====Running problem {problem}====")
         for test, tfunc in [
