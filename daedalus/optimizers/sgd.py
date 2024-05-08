@@ -11,12 +11,12 @@ class SGD(Optimizer):
         super().__init__(space, loss)
         self._x: array = self.space.center()
     
-    def step(self) -> None:
+    def step(self) -> int:
         """
         Take a step in the search space from x
         
         Returns:
-            A tuple representing the next point in the search space.
+            The number of timeloop evaluations run.
         """
         step: array = np.zeros(self._x.shape, dtype=np.int64)
         x_loss: float = self.loss(tuple(self._x))
@@ -41,7 +41,7 @@ class SGD(Optimizer):
         eval_total = 0
         for dim, gradient, l_loss, u_loss, eval_count in results:
             eval_total += eval_count
-            print(l_loss, u_loss, x_loss)
+            # print(l_loss, u_loss, x_loss)
             if x_loss >= l_loss or x_loss >= u_loss:
                 step[dim] = np.sign(gradient)
                 if not self.space.in_dim(dim, self._x[dim] + step[dim]):

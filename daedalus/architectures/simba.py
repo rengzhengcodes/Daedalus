@@ -4,8 +4,7 @@ import timeloopfe.v4 as tl
 
 from . import Architecture
 
-
-class Eyeriss(Architecture):
+class Simba(Architecture):
     def _evaluate(
         self, x_dict: dict, eval_problem: str, brief_print: bool = False
     ) -> float:
@@ -16,11 +15,11 @@ class Eyeriss(Architecture):
         spec = tl.Specification.from_yaml_files(
             self._spec, jinja_parse_data={"problem": eval_problem}
         )
-        buf = spec.architecture.find("shared_glb")
+        buf = spec.architecture.find("GlobalBuffer")
         buf.attributes["depth"] = round(
             buf.attributes["depth"] * (2.0 ** x_dict["global_buffer_size_scale"])
         )
-        pe = spec.architecture.find("PE_column")
+        pe = spec.architecture.find("PE")
         pe.spatial.meshX = round(pe.spatial.meshX * (2.0 ** x_dict["pe_scale"]))
         spec.mapper.search_size = 2000
 
@@ -30,7 +29,7 @@ class Eyeriss(Architecture):
             print(".", end="")
         else:
             print(f"Starting {proc_id}")
-        out_dir = os.path.abspath(f"{os.curdir}/outputs/eyeriss/{proc_id}")
+        out_dir = os.path.abspath(f"{os.curdir}/outputs/simba/{proc_id}")
         tl.call_mapper(spec, output_dir=out_dir, log_to=f"{out_dir}/output.log")
 
         # Grab the energy from the stats file
@@ -38,7 +37,7 @@ class Eyeriss(Architecture):
         stats = [l.strip() for l in stats.split("\n") if l.strip()]
         energy = float(stats[-1].split("=")[-1])
         return (
-            spec.architecture.find("shared_glb").attributes["depth"],
-            spec.architecture.find("PE_column").spatial.meshX,
+            spec.architecture.find("GlobalBuffer").attributes["depth"],
+            spec.architecture.find("PE").spatial.meshX,
             energy,
         )
