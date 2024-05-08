@@ -12,16 +12,17 @@ def test_sgd(problem, arch):
     )
 
     # Perform the optimization
-    print(f"Initial point: {(prev_step := optim.x)}")
+    prev_step = optim.x
+    # print(f"Initial point: {(prev_step := optim.x)}")
     eval_total = 0
     for i in range(10):
         eval_total += optim.step()
-        print(f"Step {i}: {optim.x} | Loss: {optim.loss(tuple(optim.x))}")
-        print()
+        # print(f"Step {i}: {optim.x} | Loss: {optim.loss(tuple(optim.x))}")
+        # print()
         if np.array_equal(optim.x, prev_step):
             break
         prev_step = optim.x
-    print(f"DONE. Final point: {optim.x}, Previous: {prev_step}")
+    print(f"DONE. Final point: {optim.x}, Loss: {optim.loss(tuple(optim.x))}")
     return eval_total
 
 
@@ -36,7 +37,7 @@ def test_midas(problem, arch):
     for i in range(len(arch._dimensions)):
         # print(f"Starting step {i}")
         optim.step()
-        print(f"Step {i}: {optim.optimal}")
+        # print(f"Step {i}: {optim.optimal}")
 
     print(
         f"DONE. Final point: {optim.optimal} | Loss: {optim.loss(tuple(optim.optimal))}"
@@ -56,14 +57,14 @@ def test_grid(problem, arch):
         len(range(*arch._orthospace._bounds[dim_idx])) for dim_idx, dim in enumerate(arch._dimensions)
     )
 
-    print(f"Running {total_iters} steps!")
+    # print(f"Running {total_iters} steps!")
     for i in range(total_iters):
-        print(f"Starting step {i}: {optim._space_idx}")
+        # print(f"Starting step {i}: {optim._space_idx}")
         optim.step()
-        print(
-            f"Step {i}: {optim._space_idx} with loss {optim.loss(tuple(optim._space_idx_last))}"
-            f" | optimal: {optim.optimal} with loss: {optim._optimal}"
-        )
+        # print(
+        #     f"Step {i}: {optim._space_idx} with loss {optim.loss(tuple(optim._space_idx_last))}"
+        #     f" | optimal: {optim.optimal} with loss: {optim._optimal}"
+        # )
 
     print(f"DONE. Final point: {optim.optimal} with loss {optim._optimal}")
     return total_iters
