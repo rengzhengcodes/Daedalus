@@ -25,10 +25,10 @@ if __name__ == "__main__":
         arch = Simba(dimensions, bounds, spec)
         print(f"====Running problem {problem}====")
         for test, tfunc in [
+            ("Grid", test_grid),
             ("SGD", test_sgd),
             ("Midas", test_midas),
             ("Tantalus", test_tantalus),
-            ("Grid", test_grid),
         ]:
             print(f"Running {test}")
 

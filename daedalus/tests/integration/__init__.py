@@ -51,7 +51,6 @@ def test_tantalus(problem: str, arch: Architecture):
     )
 
     # Perform the optimization
-    prev_step = optim.x
     print(f"Initial point: {(prev_step := optim.x)}")
     eval_total = sum(
         len(range(*arch._orthospace._bounds[dim_idx])) 
@@ -62,6 +61,7 @@ def test_tantalus(problem: str, arch: Architecture):
         prev_step = optim.x
 
     print(f"DONE. Final point: {optim.x}, Loss: {optim.loss(tuple(optim.x))}")
+    return eval_total
 
 
 def test_grid(problem, arch):
