@@ -18,14 +18,16 @@ class Eyeriss(Architecture):
         )
         buf = spec.architecture.find("shared_glb")
         buf.attributes["depth"] = round(
-            buf.attributes["depth"] * (2.0 ** x_dict["global_buffer_size_scale"])
+            buf.attributes["depth"] * (2.0 ** x_dict["global_buffer_size_exp_scale"])
         )
         pe = spec.architecture.find("PE_column")
-        pe.spatial.meshX = round(pe.spatial.meshX * (2.0 ** x_dict["pe_scale"]))
+        pe.spatial.meshX = round(pe.spatial.meshX * (2.0 ** x_dict["pe_x_exp_scale"]))
+        pe = spec.architecture.find("PE")
+        pe.spatial.meshY = round(pe.spatial.meshY * (2.0 ** x_dict["pe_y_exp_scale"]))
         spec.mapper.search_size = 2000
 
         # Give each run a unique ID and run the mapper
-        proc_id = f"glb_scale={2.0 ** x_dict['global_buffer_size_scale']},pe_scale={2.0 ** x_dict['pe_scale']}"
+        proc_id = f"glb_scale={2.0 ** x_dict['global_buffer_size_exp_scale']},pe_x_scale={2.0 ** x_dict['pe_x_exp_scale']},pe_y_scale={2.0 ** x_dict['pe_y_exp_scale']}"
         if brief_print:
             print(".", end="")
         else:

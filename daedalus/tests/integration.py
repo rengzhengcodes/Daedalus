@@ -12,8 +12,8 @@ ex_path = os.path.abspath(ex_path)
 
 
 # Set up the search space
-dimensions = ("global_buffer_size_scale", "pe_scale")
-bounds = ((-1, 8), (-1, 8))
+dimensions = ("global_buffer_size_exp_scale", "pe_x_exp_scale", "pe_y_exp_scale")
+bounds = ((-1, 8), (-1, 8), (-1, 8))
 spec = os.path.join(ex_path, "top.yaml.jinja")
 
 
