@@ -11,7 +11,7 @@ ex_path = os.path.abspath(ex_path)
 
 # Set up the search space
 dimensions = ("global_buffer_size_exp_scale", "pe_x_exp_scale", "pe_y_exp_scale")
-bounds = ((-1, 8), (-1, 8), (-1, 8))
+bounds = ((-1, 6), (-1, 6), (-1, 6))
 spec = os.path.join(ex_path, "cases", "eyeriss_top.yaml.jinja")
 
 
