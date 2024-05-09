@@ -1,7 +1,7 @@
 from joblib import Parallel, delayed
 
 from . import Optimizer, OrthoSpace, array
-from typing import Callable, Generator
+from typing import Callable
 
 import numpy as np
 

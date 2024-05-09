@@ -1,7 +1,7 @@
 import os, shutil
 import time
 
-from . import test_sgd, test_midas, test_grid
+from . import test_sgd, test_midas, test_tantalus, test_grid
 from ...architectures.simba import Simba
 
 # Sets up the file location for the tests.
@@ -27,6 +27,7 @@ if __name__ == "__main__":
         for test, tfunc in [
             ("SGD", test_sgd),
             ("Midas", test_midas),
+            ("Tantalus", test_tantalus),
             ("Grid", test_grid),
         ]:
             print(f"Running {test}")
