@@ -18,7 +18,8 @@ spec = os.path.join(ex_path, "cases", "eyeriss_top.yaml.jinja")
 if __name__ == "__main__":
     out_dir = os.path.abspath(f"{os.curdir}/outputs/")
     rm_dir = os.path.join(out_dir, "eyeriss")
-    shutil.rmtree(rm_dir)
+    if os.path.exists(rm_dir):
+        shutil.rmtree(rm_dir)
 
     for problem in [f"VGG02_layer{i}.yaml" for i in range(1, 14)]:
         arch = Eyeriss(dimensions, bounds, spec)
