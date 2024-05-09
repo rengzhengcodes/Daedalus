@@ -31,7 +31,7 @@ architecture:
     name: PE
     spatial: {meshX: 16}
     constraints:
-      spatial: {factors: [R=1, S=1, P=1, Q=1, N=1], permutation: [M, C, R, S, P, Q, N]}
+      spatial: {factors: [R=1, S=1, P=1, Q=1, N=1], permutation: [M, C, R, S, P, Q, N], maximize_dims: [M, C]}
 
   - !Component # Input buffer
     name: PEInputBuffer
