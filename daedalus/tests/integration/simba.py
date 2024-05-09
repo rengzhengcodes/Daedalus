@@ -4,10 +4,10 @@ import time
 from . import test_sgd, test_midas, test_grid
 from ...architectures.simba import Simba
 
+# Sets up the file location for the tests.
 file_path = os.path.abspath(__file__)
 ex_path = os.path.join(os.path.dirname(file_path))
 ex_path = os.path.abspath(ex_path)
-
 
 # Set up the search space
 dimensions = ("global_buffer_size_scale", "pe_scale")
