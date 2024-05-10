@@ -42,6 +42,7 @@ architecture:
           permutation: [N, C, P, R, S, Q, M]
           factors: [N=1, C=1, P=1, R=1, S=1]
           split: 7
+          # maximize_dims: [Q, M]
 
     - !Container # Each PE in the column receives a different filter row
       name: PE
@@ -51,6 +52,7 @@ architecture:
           split: 4
           permutation: [N, P, Q, R, S, C, M]
           factors: [N=1, P=1, Q=1, R=1]
+          # maximize_dims: [S, C, M]
 
     - !Parallel # Input/Output/Weight scratchpads in parallel
       nodes:

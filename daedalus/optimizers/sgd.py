@@ -44,8 +44,15 @@ class SGD(Optimizer):
             # print(l_loss, u_loss, x_loss)
             if x_loss >= l_loss or x_loss >= u_loss:
                 step[dim] = np.sign(gradient)
+                # Don't follow gradient if it leads out of the search space.
                 if not self.space.in_dim(dim, self._x[dim] + step[dim]):
                     step[dim] = 0
+                # If the gradient is in this case, we know either side of the
+                # cliff is lower, but both values are equal, so the gradient
+                # is interpolated to be 0. To compensate, we choose to go in the
+                # lower exponent direction as it needs less hardware support.
+                elif step[dim] == 0:
+                    step[dim] = -1
             else:
                 step[dim] = 0
         self._x += step

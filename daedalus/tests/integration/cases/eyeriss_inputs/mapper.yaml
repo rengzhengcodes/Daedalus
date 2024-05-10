@@ -2,7 +2,7 @@ mapper:
   version: 0.4
   optimization_metrics: [ edp ]
   live_status: False
-  num_threads: 4
+  num_threads: 8
   search_size:       100    # Max valid mappings per-thread
   victory_condition: 10000  # Exit once a mapping is better than this number of
                             # valid mappings in a row
