@@ -68,6 +68,8 @@ class OrthoSpace(Space):
 
             yield tuple(adj_points)
 
+n_jobs: int = 16
+
 class Optimizer(ABC):
     """Abstract base class for discrete-space optimizers."""
     def __init__(self, space: OrthoSpace, loss: Callable) -> None:

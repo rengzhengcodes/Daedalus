@@ -1,6 +1,6 @@
 from joblib import Parallel, delayed
 
-from . import Optimizer, OrthoSpace, array
+from . import Optimizer, OrthoSpace, array, n_jobs
 from typing import Callable
 
 import numpy as np
@@ -32,9 +32,13 @@ class SGD(Optimizer):
                 gradient += u_loss
 
             eval_count = (l_loss is not None) + (u_loss is not None)
-            return dim, gradient, l_loss, u_loss, eval_count
+            return (
+                dim, gradient, l_loss if l_loss is not None else np.inf, 
+                               u_loss if u_loss is not None else np.inf, 
+                eval_count
+            )
 
-        results = Parallel(n_jobs=8)(delayed(eval_dim_gradient)(dim, *bounds)
+        results = Parallel(n_jobs=n_jobs)(delayed(eval_dim_gradient)(dim, *bounds)
                                      for dim, bounds in enumerate(self.space.adj(self._x)))
         
         # Moves in the opposite direction of the gradient. If we are at a local minimum, we will not move.

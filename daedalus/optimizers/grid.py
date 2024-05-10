@@ -1,5 +1,5 @@
-from . import Optimizer, OrthoSpace, array
-from typing import Callable, Generator
+from . import Optimizer, OrthoSpace, array, n_jobs
+from typing import Callable
 
 import numpy as np
 

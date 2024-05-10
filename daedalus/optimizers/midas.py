@@ -1,7 +1,7 @@
 from joblib import Parallel, delayed
 import numpy as np
 
-from . import Optimizer, OrthoSpace, array
+from . import Optimizer, OrthoSpace, array, n_jobs
 from typing import Callable, Tuple
 
 class Midas(Optimizer):
@@ -30,7 +30,7 @@ class Midas(Optimizer):
             return point, self.loss(tuple(x))
 
         # Evaluates the loss of each point in the current dimension.
-        results: list[Tuple[int, int]] = Parallel(n_jobs=8)(delayed(eval_point)(point) for point in range(*self.space._bounds[self.dim]))
+        results: list[Tuple[int, int]] = Parallel(n_jobs=n_jobs)(delayed(eval_point)(point) for point in range(*self.space._bounds[self.dim]))
 
         # Calculates the dim with the minimal loss
         min_loss: int = min(results, key=lambda result: result[1])
