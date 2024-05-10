@@ -1,7 +1,7 @@
 import os, shutil
 import time
 
-from . import test_sgd, test_midas, test_grid
+from . import test_sgd, test_midas, test_tantalus, test_grid
 from ...architectures.eyeriss import Eyeriss
 
 # Sets up the file location for the tests.
@@ -25,9 +25,10 @@ if __name__ == "__main__":
         arch = Eyeriss(dimensions, bounds, spec)
         print(f"====Running problem {problem}====")
         for test, tfunc in [
+            ("Grid", test_grid),
             ("SGD", test_sgd),
             ("Midas", test_midas),
-            ("Grid", test_grid),
+            ("Tantalus", test_tantalus),
         ]:
             print(f"Running {test}")
 
