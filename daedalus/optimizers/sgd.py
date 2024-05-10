@@ -55,8 +55,10 @@ class SGD(Optimizer):
                 # cliff is lower, but both values are equal, so the gradient
                 # is interpolated to be 0. To compensate, we choose to go in the
                 # lower exponent direction as it needs less hardware support.
-                elif step[dim] == 0:
+                elif step[dim] == 0 and l_loss == u_loss and l_loss != np.inf:
                     step[dim] = -1
+                else:
+                    step[dim] = 0
             else:
                 step[dim] = 0
         self._x += step
